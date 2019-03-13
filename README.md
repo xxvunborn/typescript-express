@@ -1,3 +1,4 @@
+# WORK IN PROGRESS, spanglish comments and not finish worked setup
 # JWS-Auth with typescript
 
 ## First configurations
