@@ -82,43 +82,61 @@ server.listen(stage.port, () => {
 })
 ```
 
-
-then we need to configure the middlewares for the application. so import it: 
-```
-import cors from 'cors'
-import parser from 'body-parser'
-import compression from 'compression'
-```
-
-then after `const router = express()` add the middlewares configuration
-
+# Middleware
+For the middleware section we use `cors`, `body-parser` and `compression`. for that, we need to create the next folder and file
 
 ```
-// Define middlewares for the application
-// Cors
+mkdir src/middleware
+touch ./src/middleware/common.ts
+touch ./src/middleware/index.ts
+```
+
+then in `common.ts` we add the next code.
+
+```
+import { Router } from "express"
+import cors from "cors"
+import parser from "body-parser"
+import compression from "compression"
+
+export const handleCors = (router: Router) => {
 router.use(
-    cors({
-      credentials: true,
-      origin: true
-    })
+  cors({
+    credentials: true,
+    origin: true
+  })
+)};
+
+export const handleBodyParser = (router: Router) => {
+router.use(
+  parser.urlencoded({ extended: true })
 )
 
-// Body-parser
-router.use(
-parser.urlencoded({ extended: true })
-)
 router.use(
   parser.json()
-)
+)};
 
-// Compression
-router.use(
-  compression()
-)
+export const handleCompression = (router: Router) => {
+  router.use(
+    compression()
+  )
+};
 
 ```
 
+and we export in `index.ts` from `middleware`
 
+```
+import {
+  handleCors,
+  handleBodyParser,
+  handleCompression
+} from './common'
+
+export default [handleCors, handleBodyParser, handleCompression]
+```
+
+# Services (and routes)
 then we need to create the routes for the application, for that, create a new folder called services, in this folder we can store the index and the interaction with the DB in the future
 
 ```
@@ -141,7 +159,7 @@ import { Request, Response } from "express"
 export default [
   {
     path: "/",
-    method: "GET",
+    method: "get",
     handler: async (req: Request, res: Response) => {
       res.send("Hello World");
     }
@@ -154,7 +172,6 @@ and then, in the index of services, we export the `helloWorld`
 import helloWorld from "./helloWorld/routes"
 
 export default [...helloWorld]
-
 ```
 
 For the next task, we need to agregate the routes in the `server.ts`, for that we need to create a helper function for read the routes in the service folder.
@@ -190,10 +207,45 @@ export const applyRoutes = (routes: Route[], router: Router) => {
 ```
 
 ```
-
 En esta linea lo que esta haciendo es que esta declarando un Express.Router y luego le esta asignadndo el tipo de metodo (get,post,etc..) y pasando como parametros el path y el handler del method, seria mejor explicarlo y apoyarse de la documentación de express para que quede un mayor entendimiento de la guia 
 (router as any )[method](path, handler)
 ```
+
+run the app and check every is ok,
+
+```
+npm run dev
+```
+
+# TypeORM
+for DB, i dicide to use postgres, and for mangage the migrations and the virtual DB we use typeORM
+
+We need the next libreries for use `pg` and `typeORM`
+```
+npm install pg
+npm install @types/pg
+npm install typeorm
+npm install reflect-metadata
+```
+
+TypeORM use a experimental typescript decorator syntax, for more information you can read this [article](https://www.spectory.com/blog/A%20deep%20dive%20into%20TypeScript%20decorators)
+
+for use this experimental decorator we need to include the next code in the end of the `tsconfig.json`
+
+```
+  ...
+"emitDecoratorMetadata": true,
+"experimentalDecorators": true
+```
+
+we dont use the cli for typescript, so we create a new file called 
+```
+touch ./ormconfig.json
+
+```
+
+
+
 
 
 

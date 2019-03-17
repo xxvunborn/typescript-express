@@ -12,7 +12,7 @@ exports.handleCors = (router) => {
         origin: true
     }));
 };
-exports.handleBodyRequestParsing = (router) => {
+exports.handleBodyParser = (router) => {
     router.use(body_parser_1.default.urlencoded({ extended: true }));
     router.use(body_parser_1.default.json());
 };
