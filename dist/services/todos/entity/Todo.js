@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let Todo = class Todo {
     constructor() {
-        this.text = '';
+        this.name = '';
         this.isComplete = false;
     }
 };
@@ -23,7 +23,7 @@ __decorate([
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Todo.prototype, "text", void 0);
+], Todo.prototype, "name", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Boolean)

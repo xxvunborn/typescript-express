@@ -1,4 +1,4 @@
-import Todo from "./Todo/routes"
+import Todo from "./todos/routes"
 
 export default [...Todo]
 

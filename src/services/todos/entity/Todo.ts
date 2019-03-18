@@ -6,7 +6,7 @@ export class Todo {
   public id: number | undefined;
 
   @Column()
-  public text: string = '';
+  public name: string = '';
 
   @Column()
   public isComplete: boolean = false

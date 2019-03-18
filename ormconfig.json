@@ -9,17 +9,17 @@
   "migrationsRun": true,
    "logging": false,
    "entities": [
-      "dist/services/helloworld/entity/**/*.js"
+      "dist/services/todos/entity/*.js"
    ],
    "migrations": [
-      "dist/services/helloworld/migration/**/*.js"
+      "dist/services/todos/migration/*.js"
    ],
    "subscribers": [
-      "dist/services/helloworld/subscriber/**/*.js"
+      "dist/services/todos/subscriber/*.js"
    ],
    "cli": {
-      "entitiesDir": "src/services/helloworld/entity",
-      "migrationsDir": "src/services/helloworld/migration",
-      "subscribersDir": "src/services/helloworld/subscriber"
+      "entitiesDir": "src/services/todos/entity",
+      "migrationsDir": "src/services/todos/migration",
+      "subscribersDir": "src/services/todos/subscriber"
    }
 }
