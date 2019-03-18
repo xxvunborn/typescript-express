@@ -10,19 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-let HelloWorld = class HelloWorld {
+let Todo = class Todo {
+    constructor() {
+        this.text = '';
+        this.isComplete = false;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Object)
-], HelloWorld.prototype, "id", void 0);
+], Todo.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", Object)
-], HelloWorld.prototype, "greeting", void 0);
-HelloWorld = __decorate([
+    __metadata("design:type", String)
+], Todo.prototype, "text", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Boolean)
+], Todo.prototype, "isComplete", void 0);
+Todo = __decorate([
     typeorm_1.Entity()
-], HelloWorld);
-exports.HelloWorld = HelloWorld;
-exports.default = HelloWorld;
-//# sourceMappingURL=helloworld.js.map
+], Todo);
+exports.Todo = Todo;
+exports.default = Todo;
+//# sourceMappingURL=Todo.js.map

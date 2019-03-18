@@ -1,1 +1,0 @@
-{"version":3,"file":"routes.js","sourceRoot":"","sources":["../../../src/services/helloWorld/routes.ts"],"names":[],"mappings":";;;;;;;;;;AAEA,kBAAe;IACb;QACE,IAAI,EAAE,GAAG;QACT,MAAM,EAAE,KAAK;QACb,OAAO,EAAE,CAAO,GAAY,EAAE,GAAa,EAAE,EAAE;YAC7C,GAAG,CAAC,IAAI,CAAC,aAAa,CAAC,CAAC;QAC1B,CAAC,CAAA;KACF;CACF,CAAA"}

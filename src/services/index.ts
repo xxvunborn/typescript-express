@@ -1,4 +1,4 @@
-import helloWorld from "./helloWorld/routes"
+import Todo from "./Todo/routes"
 
-export default [...helloWorld]
+export default [...Todo]
 

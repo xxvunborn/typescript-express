@@ -1,13 +1,16 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class HelloWorld {
+export class Todo {
   @PrimaryGeneratedColumn()
   public id: number | undefined;
 
   @Column()
-  public greeting: string | undefined;
+  public text: string = '';
+
+  @Column()
+  public isComplete: boolean = false
 }
 
-export default HelloWorld;
+export default Todo;
 
