@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const todos_1 = require("./todos");
 exports.default = [
     {
-        path: "/read",
+        path: "/read/:id",
         method: "get",
         handler: todos_1.readTodo
     },

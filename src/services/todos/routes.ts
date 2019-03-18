@@ -3,7 +3,7 @@ import { readTodo, postTodo } from './todos'
 
 export default [
   {
-    path: "/read",
+    path: "/read/:id",
     method: "get",
     handler: readTodo
   },

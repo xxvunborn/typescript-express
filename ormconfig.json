@@ -9,17 +9,17 @@
   "migrationsRun": true,
    "logging": false,
    "entities": [
-      "dist/services/todos/entity/*.js"
+      "dist/services/**/entity/*.js"
    ],
    "migrations": [
-      "dist/services/todos/migration/*.js"
+      "dist/services/**/migration/*.js"
    ],
    "subscribers": [
-      "dist/services/todos/subscriber/*.js"
+      "dist/services/**/subscriber/*.js"
    ],
    "cli": {
-      "entitiesDir": "src/services/todos/entity",
-      "migrationsDir": "src/services/todos/migration",
-      "subscribersDir": "src/services/todos/subscriber"
+      "entitiesDir": "src/services/**/entity",
+      "migrationsDir": "src/services/**/migration",
+      "subscribersDir": "src/services/**/subscriber"
    }
 }
