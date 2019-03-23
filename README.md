@@ -241,13 +241,159 @@ for use this experimental decorator we need to include the next code in the end 
 we dont use the cli for typescript, so we create a new file called 
 ```
 touch ./ormconfig.json
-
 ```
 
+and in this file we add the next code:
+```
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "acidlabs",
+  "password": "",
+  "database": "test",
+  "synchronize": false,
+  "migrationsRun": true,
+   "logging": false,
+   "entities": [
+      "dist/services/**/entity/*.js"
+   ],
+   "migrations": [
+      "dist/services/**/migration/*.js"
+   ],
+   "subscribers": [
+      "dist/services/**/subscriber/*.js"
+   ],
+   "cli": {
+      "entitiesDir": "src/services/**/entity",
+      "migrationsDir": "src/services/**/migration",
+      "subscribersDir": "src/services/**/subscriber"
+   }
+}
+```
 
+In this file we need to define the the `Dir` for `entities`, `migration` and `subscribers` this for the cli and for the `dist` folder since the compilation files live here
 
+We create a simple `TODO` for that, in the service folder we need to create a todo folder and the `entity` and `migration` folder
 
+```
+mkdir src/todos/
+mkdir src/todos/entity/
+mkdir src/todos/migration/
+```
 
+Now, create `Todo.ts` for define the entity for `todo`
 
+```
+touch ./src/todos/entity/Todo.ts
+```
 
+TypeORM use entity for data structure, so we need to define 3 columns, the `id`, `name` and `isComplete`
 
+```
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+
+@Entity()
+export class Todo {
+  @PrimaryGeneratedColumn()
+  public id: number | undefined;
+
+  @Column()
+  public name: string = '';
+
+  @Column()
+  public isComplete: boolean = false
+}
+
+export default Todo;
+```
+
+and the migrations for this entity to the DB.
+
+```
+import {MigrationInterface, QueryRunner} from "typeorm";
+
+export class Initialize1552935166867 implements MigrationInterface {
+
+  public async up(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.query(`CREATE TABLE "todo" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "isComplete" boolean NOT NULL, CONSTRAINT "PK_d429b7114371f6a35c5cb4776a7" PRIMARY KEY ("id"))`);
+    }
+
+  public async down(queryRunner: QueryRunner): Promise<any> {
+      await queryRunner.query(`DROP TABLE "todo"`);
+    }
+
+}
+```
+
+for run the migration and the drop, we can use the next commands
+
+```
+./node_modules/.bin/typeorm schema:run
+./node_modules/.bin/typeorm schema:drop 
+```
+
+And finally, we need to create the function for read and post the TODOs in the `./src/entity/todos.ts`
+
+```
+import {Request, Response} from "express";
+import { getManager } from 'typeorm';
+import Todo from './entity/Todo';
+
+export async function readTodo (req: Request, res: Response) {
+  // Get Todo repository to perform operations with todo
+  const todoRepository = await getManager().getRepository(Todo);
+
+  // Load todo by a given todo id 
+  const todo = await todoRepository.findOne(req.params.id)
+
+  // if post was not found return 404 to the client
+  // TODO: use decorator syntax for this
+  if (!todo) {
+    res.status(404)
+    res.end()
+    return;
+  }
+  res.send(todo)
+}
+
+export async function postTodo (req: Request, res: Response) {
+  // Get Todo repository to perform operation with todo
+  const todoRepository = await getManager().getRepository(Todo);
+
+  // create a todo object from todo json object send over http
+  const newTodo = todoRepository.create(req.body)
+
+  // Save todo
+  await todoRepository.save(newTodo)
+
+  // Response
+  res.send(newTodo)
+}
+```
+
+and we define the routes in the file `./src/services/routes.ts`
+
+```
+import { Request, Response } from "express"
+import { readTodo, postTodo } from './todos'
+
+export default [
+  {
+    path: "/read/:id",
+    method: "get",
+    handler: readTodo
+  },
+  {
+    path: "/post",
+    method: "post",
+    handler: postTodo
+  }
+]
+```
+
+Then, run:
+
+```
+npm run dev
+```
